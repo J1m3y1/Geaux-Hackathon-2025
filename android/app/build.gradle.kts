@@ -6,16 +6,17 @@ plugins {
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
-    val props = Properties()
-    val localFile = rootProject.file("local.properties")
-    if (localFile.exists()) {
-        props.load(FileInputStream(localFile))
-    }
-
-    val mapApiKey: String? = props.getProperty("mapApiKey")
-    manifestPlaceholders["{mapApiKey}"] = mapApiKey
-
 }
+
+val props = Properties()
+val localFile = rootProject.file("local.properties")
+if (localFile.exists()) {
+    props.load(FileInputStream(localFile))
+}
+val mapApiKey: String = props.getProperty("mapApiKey")
+    ?: throw GradleException("mapApiKey not found in local.properties")
+
+
 
 
 
@@ -42,7 +43,7 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-        manifestPlaceholders["mapApiKey"] = mapApiKey!!
+        manifestPlaceholders.put("mapApiKey", mapApiKey)
 
     }
 
