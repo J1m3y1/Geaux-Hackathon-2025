@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -14,6 +17,18 @@ dependencies {
   // Add the dependencies for any other desired Firebase products
   // https://firebase.google.com/docs/android/setup#available-libraries
 }
+
+val props = Properties()
+val localFile = rootProject.file("local.properties")
+if (localFile.exists()) {
+    props.load(FileInputStream(localFile))
+}
+val mapApiKey: String = props.getProperty("mapApiKey")
+    ?: throw GradleException("mapApiKey not found in local.properties")
+
+
+
+
 
 android {
     namespace = "com.example.geaux_hackathon_2025"
