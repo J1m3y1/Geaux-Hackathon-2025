@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "655947057492",
+    "project_id": "geaux-hackathon-2025",
+    "storage_bucket": "geaux-hackathon-2025.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655947057492:android:a76617220f5f0a466d60c1",
+        "android_client_info": {
+          "package_name": "com.example.geaux_hackathon_2025"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAISgQbrcC8WgngoZf8PrLqP9LU7YZshk0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
