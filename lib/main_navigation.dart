@@ -40,11 +40,11 @@ class _MainNavigation extends State<MainNavigation> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: 'Collection',
+            label: 'Shop',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shop),
-            label: 'Shop',
+            label: 'Collection',
           ),
         ],
     ),

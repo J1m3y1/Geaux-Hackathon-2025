@@ -3,6 +3,8 @@ import 'package:geaux_hackathon_2025/location_service.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:ui' as ui;
 import 'dart:math';
 
@@ -75,7 +77,7 @@ Future<BitmapDescriptor> getScaledMarker(String assetPath, double scale) async {
     });
   }
 
-  void _handleMarkerTap(String markerId) {
+  Future<void> _handleMarkerTap(String markerId) async {
     DateTime now = DateTime.now();
 
     if (lastTouched.containsKey(markerId)) {
@@ -101,6 +103,22 @@ Future<BitmapDescriptor> getScaledMarker(String assetPath, double scale) async {
         );
       },
     );
+
+    // Update Firestore to unlock this animal for the current user
+  final user = FirebaseAuth.instance.currentUser;
+  if (user == null) return;
+
+  // Extract animal name from the asset path (e.g., "bird_color.png" → "bird")
+  String animalId = randomAnimal.split('/').last.split('_').first;
+
+  final docRef = FirebaseFirestore.instance
+      .collection('users')
+      .doc(user.uid)
+      .collection('collection')
+      .doc(animalId);
+
+  // Mark as unlocked in Firestore
+  await docRef.set({'unlocked': true}, SetOptions(merge: true));
   }
 
   void _addMarkers(BitmapDescriptor icon) {
