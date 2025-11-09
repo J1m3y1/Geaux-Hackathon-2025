@@ -1,9 +1,34 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+    id("com.google.gms.google-services")
 }
+
+dependencies {
+  implementation(platform("com.google.firebase:firebase-bom:34.5.0"))
+  implementation("com.google.firebase:firebase-analytics")
+
+
+  // Add the dependencies for any other desired Firebase products
+  // https://firebase.google.com/docs/android/setup#available-libraries
+}
+
+val props = Properties()
+val localFile = rootProject.file("local.properties")
+if (localFile.exists()) {
+    props.load(FileInputStream(localFile))
+}
+val mapApiKey: String = props.getProperty("mapApiKey")
+    ?: throw GradleException("mapApiKey not found in local.properties")
+
+
+
+
 
 android {
     namespace = "com.example.geaux_hackathon_2025"
@@ -24,10 +49,12 @@ android {
         applicationId = "com.example.geaux_hackathon_2025"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        minSdk = flutter.minSdkVersion 
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
+
+        manifestPlaceholders["mapApiKey"] = mapApiKey
     }
 
     buildTypes {
