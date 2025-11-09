@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geaux_hackathon_2025/auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage ({Key? key}) : super(key: key);
@@ -15,6 +16,7 @@ class _LoginPageState extends State<LoginPage> {
 
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> signInWithEmailAndPassword() async {
     try {
@@ -31,10 +33,19 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> createUserWithEmailAndPassword() async {
     try {
-      await Auth().createUserWithEmailAndPassword(
+      UserCredential userCredential = await Auth().createUserWithEmailAndPassword(
         email: _controllerEmail.text,
         password: _controllerPassword.text,
       );
+
+      String uid = userCredential.user!.uid;
+
+      List<String> animals = ['bird', 'cat', 'dog', 'squirrel', 'rat'];
+
+      for(String animal in animals) {
+        await FirebaseFirestore.instance.collection('users').doc(uid).collection('collection').doc(animal).set({'unlocked': false});
+      }
+
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;

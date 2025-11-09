@@ -1,7 +1,8 @@
 import 'package:geaux_hackathon_2025/auth.dart';
-import 'package:geaux_hackathon_2025/pages/home_page.dart';
+import 'package:geaux_hackathon_2025/main_navigation.dart';
 import 'package:geaux_hackathon_2025/pages/login_register_page.dart';
 import 'package:flutter/material.dart';
+import 'package:geaux_hackathon_2025/pages/map_page.dart';
 
 class WidgetTree extends StatefulWidget {
   const WidgetTree({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class _WidgetTreeState extends State<WidgetTree> {
       stream: Auth().authStateChanges,
       builder: (context, snapshot) {
         if(snapshot.hasData) {
-          return HomePage();
+          return MainNavigation();
         } else {
           return const LoginPage();
         }
