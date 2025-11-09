@@ -42,11 +42,10 @@ class _LoginPageState extends State<LoginPage> {
       String uid = userCredential.user!.uid;
 
       await FirebaseFirestore.instance.collection('users').doc(uid).set({
-      'email': _controllerEmail.text,
-      'balance': 5000, // starting balance
+      'balance': 1000, // starting balance
     });
 
-      List<String> animals = ['bird', 'cat', 'dog', 'squirrel', 'rat'];
+      List<String> animals = ['bird', 'cat', 'dog', 'squirrel', 'duck', 'rooster', 'fox'];
 
       for(String animal in animals) {
         await FirebaseFirestore.instance.collection('users').doc(uid).collection('collection').doc(animal).set({'unlocked': false});

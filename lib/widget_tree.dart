@@ -2,10 +2,9 @@ import 'package:geaux_hackathon_2025/auth.dart';
 import 'package:geaux_hackathon_2025/main_navigation.dart';
 import 'package:geaux_hackathon_2025/pages/login_register_page.dart';
 import 'package:flutter/material.dart';
-import 'package:geaux_hackathon_2025/pages/map_page.dart';
 
 class WidgetTree extends StatefulWidget {
-  const WidgetTree({Key? key}) : super(key: key);
+  const WidgetTree({super.key});
 
   @override
   State<WidgetTree> createState() => _WidgetTreeState();

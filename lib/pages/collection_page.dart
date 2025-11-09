@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geaux_hackathon_2025/auth.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 
 
 
@@ -38,7 +38,6 @@ class _CollectionPage extends State<CollectionPage> {
 
       Map<String,bool> unlocked = {};
       for(var doc in snapshot.docs){
-        print("Fetched doc: ${doc.id} => ${doc.data()}");
         unlocked[doc.id] = doc['unlocked'] ?? false;
       }
 

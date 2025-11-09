@@ -120,6 +120,11 @@ class _GameShopScreenState extends State<GameShopScreen> {
                 );
               }
 
+              final doc = snapshot.data!;
+              if (!doc.exists) {
+              return const Text('User document not found.');
+              }
+
               int balance = snapshot.data!['balance'] ?? 0;
 
               return Container(
