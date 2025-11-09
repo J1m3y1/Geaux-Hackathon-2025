@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:ui' as ui;
 import 'dart:math';
+import 'shop.dart';
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,7 +15,7 @@ Future<void> main() async{
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +39,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int _currentIndex = 0;
   late GoogleMapController mapController;
   final LatLng _center = const LatLng(30.40777, -91.17972);
   final Set<Marker> _markers = {};
@@ -224,19 +226,57 @@ Future<BitmapDescriptor> getScaledMarker(String assetPath, double scale) async {
     _loadCustomMarker(1.25);
   }
 
+  Widget _getCurrentScreen() {
+    switch (_currentIndex) {
+      case 0:
+        return GoogleMap(
+          onMapCreated: _onMapCreated,
+          onCameraMove: _onCameraMove,
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 15.0,
+          ),
+          markers: _markers,
+        );
+      case 1:
+        return const GameShopScreen();
+      default:
+        return GoogleMap(
+          onMapCreated: _onMapCreated,
+          onCameraMove: _onCameraMove,
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 15.0,
+          ),
+          markers: _markers,
+        );
+    }
+  }
 
-  @override
+@override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GoogleMap(
-        onMapCreated: _onMapCreated,
-        onCameraMove: _onCameraMove,
-        initialCameraPosition: CameraPosition(
-          target: _center,
-          zoom: 15.0,
-        ),
-        markers: _markers,
-
+      body: _getCurrentScreen(),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        backgroundColor: const Color(0xFF16213e),
+        selectedItemColor: Colors.amber,
+        unselectedItemColor: Colors.white.withOpacity(0.6),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: 'Map',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: 'Shop',
+          ),
+        ],
       ),
     );
   }
