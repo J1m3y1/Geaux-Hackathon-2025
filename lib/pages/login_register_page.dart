@@ -4,7 +4,7 @@ import 'package:geaux_hackathon_2025/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage ({Key? key}) : super(key: key);
+  const LoginPage ({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -16,6 +16,7 @@ class _LoginPageState extends State<LoginPage> {
 
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
+  // ignore: unused_field
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> signInWithEmailAndPassword() async {
@@ -40,11 +41,17 @@ class _LoginPageState extends State<LoginPage> {
 
       String uid = userCredential.user!.uid;
 
+      await FirebaseFirestore.instance.collection('users').doc(uid).set({
+      'email': _controllerEmail.text,
+      'balance': 5000, // starting balance
+    });
+
       List<String> animals = ['bird', 'cat', 'dog', 'squirrel', 'rat'];
 
       for(String animal in animals) {
         await FirebaseFirestore.instance.collection('users').doc(uid).collection('collection').doc(animal).set({'unlocked': false});
       }
+      
 
     } on FirebaseAuthException catch (e) {
       setState(() {

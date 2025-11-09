@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geaux_hackathon_2025/pages/collection_page.dart';
-import 'package:geaux_hackathon_2025/pages/home_page.dart';
+import 'package:geaux_hackathon_2025/pages/shop_page.dart';
 import 'package:geaux_hackathon_2025/pages/map_page.dart';
 
 class MainNavigation extends StatefulWidget{
@@ -15,7 +15,7 @@ class _MainNavigation extends State<MainNavigation> {
 
   final List<Widget> screens = [
     const MapPage(title: 'Map'),
-    ShopPage(),
+    GameShopScreen(),
     CollectionPage(),
   ];
 
@@ -39,11 +39,11 @@ class _MainNavigation extends State<MainNavigation> {
             label: 'Map',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
+            icon: Icon(Icons.shop),
             label: 'Shop',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shop),
+            icon: Icon(Icons.book),
             label: 'Collection',
           ),
         ],

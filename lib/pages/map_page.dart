@@ -60,6 +60,7 @@ Future<BitmapDescriptor> getScaledMarker(String assetPath, double scale) async {
   ui.Codec codec = await ui.instantiateImageCodec(byteData.buffer.asUint8List(), targetWidth: (150 * scale).toInt());
   ui.FrameInfo fi = await codec.getNextFrame();
   ByteData? resizedData = await fi.image.toByteData(format: ui.ImageByteFormat.png);
+  // ignore: deprecated_member_use
   return BitmapDescriptor.fromBytes(resizedData!.buffer.asUint8List());}
 
   void _onMapCreated(GoogleMapController controller) {
@@ -100,6 +101,7 @@ Future<BitmapDescriptor> getScaledMarker(String assetPath, double scale) async {
       builder: (context) {
         return AlertDialog(
           content: Image.asset(randomAnimal, width: 150, height: 150),
+          title: Text("+500 Grass"),
         );
       },
     );
@@ -119,6 +121,17 @@ Future<BitmapDescriptor> getScaledMarker(String assetPath, double scale) async {
 
   // Mark as unlocked in Firestore
   await docRef.set({'unlocked': true}, SetOptions(merge: true));
+
+  //Add 500 grass
+  final userDoc = FirebaseFirestore.instance.collection('users').doc(user.uid);
+
+  await FirebaseFirestore.instance.runTransaction((transaction) async {
+    final snapshot = await transaction.get(userDoc);
+    if (!snapshot.exists) return;
+
+    final currentBalance = snapshot['balance'] ?? 0;
+    transaction.update(userDoc, {'balance': currentBalance + 250});
+  });
   }
 
   void _addMarkers(BitmapDescriptor icon) {
